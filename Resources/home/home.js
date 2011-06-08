@@ -22,7 +22,7 @@ tvDashboard.addEventListener('click', function(e)
 });
 
 // Pull down section init
-mbl_addTablePullDownHeader(tvDashboard, function () { tvDashboard.data = [ ]; }, loadDashboard );
+mbl_addTablePullDownHeader(tvDashboard, function () { tvDashboard.setData([]); }, loadDashboard );
 
 win.add(tvDashboard);
 
@@ -63,10 +63,9 @@ var data = [
 	{title:'Website fixes', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'}
 ];
 
-var tableData = [];
-
 function loadDashboard()
 {
+	var tableData = [];
 	for(var i=0,ilen=data.length; i<ilen; i++)
 	{
 		var thisObj = data[i];
