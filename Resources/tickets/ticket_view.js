@@ -303,7 +303,7 @@ function loadTicket()
 	}
 	//webblobView.html = '';
 	//webblobView.repaint();
-	Ti.App.fireEvent('show_global_indicator',{message: 'Load Ticket'});
+	Ti.App.fireEvent('show_global_indicator',{message: 'Loading...'/*'Load Ticket'*/});
     mbl_dataExchange("GET", "Tickets.svc/" + tid + "/HTML/",
     	function () {
     		Ti.App.fireEvent('hide_global_indicator');        	
