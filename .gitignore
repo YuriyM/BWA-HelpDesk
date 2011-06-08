@@ -3,6 +3,4 @@
 *.pyo
 build/
 .project
-.gitignore*.class
-*.pyc
-*.pyo
+.settings
