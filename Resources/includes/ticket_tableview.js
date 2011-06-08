@@ -24,7 +24,7 @@ function createTicketTableView(tickets, tickets_id)
             var top_indent = 6;
             var label_bottom_shift = 0;
                                     
-            var row = Titanium.UI.createTableViewRow({ height: 'auto', hasChild: false });
+            var row = Titanium.UI.createTableViewRow({ height: 'auto', hasChild: true });
 
             var post_view = Titanium.UI.createView({
                 height: 'auto',
