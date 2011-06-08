@@ -1,0 +1,8 @@
+*.class
+*.pyc
+*.pyo
+build/
+.project
+.gitignore*.class
+*.pyc
+*.pyo
