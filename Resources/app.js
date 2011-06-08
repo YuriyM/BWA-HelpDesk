@@ -6,7 +6,7 @@ var navGroup = Ti.UI.iPhone.createNavigationGroup({	 });
 var winHome = Ti.UI.createWindow({
 	backgroundColor:'#ffffff',
     id: 'winHome',
-    url: 'home/signin.js',
+    url: 'tickets/ticket_list.js',//'home/signin.js',
     title: 'HelpDesk',
     _parent: appBase,
     navGroup : navGroup,
