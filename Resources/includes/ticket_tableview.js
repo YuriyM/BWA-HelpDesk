@@ -1,6 +1,6 @@
 function createTicketTableView(tickets, tickets_id)
 {
-	var rowData = [];
+	var rowData = []; 
 	for (var i = 0; i < tickets.length; i++) {
 			var number = tickets[i].number;
             var subject = tickets[i].subject;
