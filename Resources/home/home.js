@@ -35,7 +35,8 @@ navSignOut.addEventListener('click', function(e)
     Ti.App.Properties.setString('mblUserPwd', '');
     win.navGroup.close(win);
 });
-win.leftNavButton = navSignOut;
+win.setRightNavButton(navSignOut);
+win.leftNavButton = Ti.UI.createView({ width: 10 });;
 
 //
 // Fill Main Dashboard TableView

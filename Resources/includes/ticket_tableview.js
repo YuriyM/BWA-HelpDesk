@@ -32,13 +32,13 @@ function createTicketTableView(tickets, tickets_id)
                 top: 6,
                 bottom: 8,
                 right: 6,
-                left: 10
+                left: 10       
             });
             
             // num+subject row
             var row1view = Titanium.UI.createView({
                 height: 'auto',
-                width: '100%',
+                width: 'auto',
                 top: 0,
                 right: 0,
                 bottom: 0,
@@ -69,30 +69,50 @@ function createTicketTableView(tickets, tickets_id)
                 text: subject,
                 top: 5,
                 left: 4,
-                width: 220, // depends on screen width, wonder how it looks on retina display
+                //width: 220, // depends on screen width, wonder how it looks on retina display
                 height: subject_label_height+2,
                 font:{fontSize:subject_label_height}
             });
+            
+            ticket_lbl.width = 285 - 4 - tktdiez_lbl.getWidth() - tktnum_lbl.getWidth();
             
             row1view.add(tktdiez_lbl);
             row1view.add(tktnum_lbl);
             row1view.add(ticket_lbl);
             
-            post_view.add(row1view); 
+            post_view.add(row1view);
             
-            // Old ticket subject label
-            /*var ticket_lbl = Titanium.UI.createLabel({
-                text: subject,
-                top: 3,
-                left: 0,                
-                width: 307, // depends on screen width
-                height: 17,
-                color: '#6d0f14',
-                font:{fontSize:17, fontFamily:'TimesNewRomanPS-BoldItalicMT'}
+            // User + Account row - 256
+            var tktuser_lbl = Titanium.UI.createLabel({
+                text: user,                
+                top: 0,
+                left: 0,
+                width: 'auto',                
+                height: 'auto',
+                color:text_color,
+                font:{fontSize:text_size, fontWeight:'normal'}             
             });
-            post_view.add(ticket_lbl);*/
+            var user_width = tktuser_lbl.getWidth();
             
-            // User + Account row
+            var account_text = '';
+            if (account == null)
+            	account_text = 'No Account Assigned';
+            else
+            	account_text = account;
+            var account_lbl = Titanium.UI.createLabel({
+	        	text: account_text,                
+	            top: 0,
+	            right: 0,
+	            width: 'auto',               
+	            height: 'auto',
+	            color:text_color,
+	            font:{fontSize:text_size-2, fontWeight:'normal'}             
+	        });	        
+	        var account_width = account_lbl.getWidth();
+	        Ti.API.info('user_width = ' + user_width + '  account_width = ' + account_width);
+	        var useAlternativeLayout = ((user_width + account_width) > 245);
+	        var accWidth = 256 - 10 - user_width;
+            // ----
             var account_row = Titanium.UI.createView({            	
                 height: 'auto',
                 top: top_indent,                
@@ -107,41 +127,27 @@ function createTicketTableView(tickets, tickets_id)
                 left: 0,
                 zIndex: 100,
                 backgroundColor: 'white'
-            });
-            
-            var tktuser_lbl = Titanium.UI.createLabel({
-                text: user,                
-                top: 0,
-                left: 0,
-                width: 'auto',                
-                height: 'auto',
-                color:text_color,
-                font:{fontSize:text_size, fontWeight:'normal'}             
-            }); 
-            user_view.add(tktuser_lbl);
+            });            
             
             var account_view = Titanium.UI.createView({            	
                 height: 'auto',
                 width: 'auto',
                 top: 2,
-                right: 0,
+                //right: 0,
                 zIndex: 50
             });
-            
-            var account_text = '';
-            if (account == null)
-            	account_text = 'No Account Assigned';
-            else
-            	account_text = account;
-            var account_lbl = Titanium.UI.createLabel({
-	        	text: account_text,                
-	            top: 0,
-	            right: 0,
-	            width: 'auto',                
-	            height: 'auto',
-	            color:text_color,
-	            font:{fontSize:text_size-2, fontWeight:'normal'}             
-	        });
+            if (useAlternativeLayout)
+            {
+            	account_row.layout = 'horizontal';
+            	account_lbl.top = 1;
+            	account_lbl.width = accWidth;
+            	account_lbl.height = text_size;
+            	account_view.left = 10;
+            }
+           	else
+           		account_view.right = 0;
+           		
+           	user_view.add(tktuser_lbl);
             account_view.add(account_lbl);
             
             account_row.add(user_view);
@@ -367,7 +373,7 @@ function createTicketTableView(tickets, tickets_id)
 			row.add(post_view);
 			row.add(imvAttach);
 			row.add(imvReply);
-            row.className = "itemTicket";
+            //row.className = "itemTicket";
 			row.tid = tickets[i].key;
 			tickets_id[i] = tickets[i].key;
 			row.number = number;

@@ -68,7 +68,7 @@ win.add(
 //
 // Nav bar controls initialization
 //
-var bNavSave = Titanium.UI.createButton({ title: 'Save' });
+var bNavSave = Titanium.UI.createButton({ /*title: 'Save'*/systemButton: Titanium.UI.iPhone.SystemButton.SAVE });
 bNavSave.addEventListener('click', function(e)
 {	
 	var APIEndPoint = textServiceURL.value;
@@ -83,7 +83,7 @@ bNavSave.addEventListener('click', function(e)
 });
 win.setRightNavButton(bNavSave);
 
-var bNavCancel = Ti.UI.createButton({title:'Cancel'});
+var bNavCancel = Ti.UI.createButton({/*title:'Cancel'*/systemButton: Titanium.UI.iPhone.SystemButton.CANCEL });
 bNavCancel.addEventListener('click', function(e)
 {
 	win.navGroup.close(win);
