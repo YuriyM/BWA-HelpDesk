@@ -35,11 +35,7 @@ function mbl_dataExchange(requestType, requestURL, onload, ondatastream, onerror
     if ((pwd === null) || (typeof pwd === "undefined"))
 		pwd = Ti.App.Properties.getString('mblUserPwd', servicePassword);
 	
-	// for now
-	email = 'jon.vickers@micajah.com';
-	pwd = 'vader';
-		
-    loader.setRequestHeader("Authorization", createAuthHeader(email, pwd));
+	loader.setRequestHeader("Authorization", createAuthHeader(email, pwd));
     loader.setRequestHeader("Content-Type", "application/rss+xml");
     
     if (requestContent == null)
