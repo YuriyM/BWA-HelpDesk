@@ -1,4 +1,7 @@
+Ti.include('../includes/network_webservice_client.js');
+Ti.include('../includes/dashboard_data.js');
 Ti.include('../controls/control_table_pulldown.js');
+
 var win = Titanium.UI.currentWindow;
 
 //
@@ -36,101 +39,87 @@ navSignOut.addEventListener('click', function(e)
     win.navGroup.close(win);
 });
 win.setRightNavButton(navSignOut);
-win.leftNavButton = Ti.UI.createView({ width: 10 });;
-
-//
-// Fill Main Dashboard TableView
-//
-var data = [
-	//General section
-	{title:'Accounts', hasChild:true, subWindow:'../tickets/ticket_list.js' },
-	{title:'Locations', hasChild:true, subWindow:'../tickets/ticket_list.js'},
-	{title:'Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js'},
-	{title:'Projects', hasChild:true, subWindow:'../tickets/ticket_list.js'},
-	// Active link
-	{title:'Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js', subWindowURL:'../tickets/ticket_list.js', header: 'Test Tickets', leftImage: '../images/single_bucket.png'},
-	// Tickets section
-	{title:'New Messages', hasChild:true, subWindow:'../tickets/ticket_list.js', header: 'Ticket Summary', leftImage: '../images/single_bucket.png'},
-	{title:'Open Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
-	{title:'Open as End User', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
-	{title:'On Hold', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
-	{title:'Waiting On Parts', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
-	{title:'Follow-Up Dates', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
-	{title:'Unconfirmed', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
-	// Queues
-	{title:'Future Consideration', hasChild:true, subWindow:'../tickets/ticket.js', header: 'Queues', leftImage: '../images/single_bucket.png'},
-	{title:'MC3 Upgrade', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
-	{title:'Pre-Development', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
-	{title:'Website fixes', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'}
-];
+win.leftNavButton = Ti.UI.createView({ width: 10 });
 
 function loadDashboard()
-{
-	var tableData = [];
-	for(var i=0,ilen=data.length; i<ilen; i++)
-	{
-		var thisObj = data[i];
+{	
+	function fillTicketsTableView(data)
+    {
+    	Ti.API.info(data);    	
+    	var info = eval('(' + data + ')');
+        var unassigned_queues = info.unassigned_queues;        
+        var tableData = [];
+        
+        
+        // Account Row
+        tableData.push(createDashboardRow(false, null, 'Accounts', 'Accounts', null, 0, null));
 		
-		var row = Ti.UI.createTableViewRow({
-		    //className: 'home_row',
-		    hasChild: thisObj.hasChild
-		  });
+		// Locations Row
+		tableData.push(createDashboardRow(false, null, 'Locations', 'Locations', null, 0, null));
 		
-		var nameLeftPad = 10;
-		if (thisObj.leftImage)
+		// Tickets Row
+		tableData.push(createDashboardRow(true, null, 'Tickets', 'Tickets', '../tickets/ticket_list.js', 0, null));        
+		
+		// Projects Row
+        tableData.push(createDashboardRow(false, null, 'Projects', 'Projects', null, 0, null));
+		
+		//
+		// Ticket Summary
+		//		
+		// New Messages
+		tableData.push(createDashboardRow(false, '../images/single_bucket.png', 'New Messages', 'New Messages', null, info.new_messages_count, 'Ticket Summary'));
+		
+		// Open Tickets 
+		tableData.push(createDashboardRow(false, '../images/single_bucket.png', 'Open Tickets', 'Open Tickets', null, info.open_count, null));
+		
+		// Open as End User 
+		tableData.push(createDashboardRow(false, '../images/single_bucket.png', 'Open as End User', 'Open as End User', null, info.as_user_count, null));
+		
+		// On Hold 
+		tableData.push(createDashboardRow(false, '../images/single_bucket.png', 'On Hold', 'On Hold', null, info.on_hold_count, null));
+		
+		// Waiting On Parts 
+		tableData.push(createDashboardRow(false, '../images/single_bucket.png', 'Waiting On Parts', 'Waiting On Parts', null, info.on_parts_count, null));
+		
+		// Follow-Up Dates 
+		tableData.push(createDashboardRow(false, '../images/single_bucket.png', 'Follow-Up Dates', 'Follow-Up Dates', null, info.follow_up_count, null));
+		
+		// Unconfirmed 
+		tableData.push(createDashboardRow(false, '../images/single_bucket.png', 'Unconfirmed', 'Unconfirmed', null, info.unconfirmed_user_tkts_count, null));
+		
+		//
+		// Queues
+		//
+		for (var i = 0; i < unassigned_queues.length; i++)
 		{
-			nameLeftPad = 40;
-			row.leftImage = thisObj.leftImage;
+			var header = null;
+			if (i === 0)
+				header = 'Queues';
+			tableData.push(createDashboardRow(false, '../images/single_bucket.png', unassigned_queues[i].queue, unassigned_queues[i].queue, null, unassigned_queues[i].count, header));		
 		}
-		
-		var rowName = Titanium.UI.createLabel({
-			text:thisObj.title,
-			font:{fontSize:20,fontWeight:'bold'},
-			width:'auto',
-			textAlign:'left',		
-			left:nameLeftPad,
-			height:22
-		});
-		if (!thisObj.subWindowURL)
-			rowName.color = '#999999';
-		row.add(rowName);
-			
-		var k = i;
-		if (k > 10)
-			k = k - 11;
-		
-		var statusView = Titanium.UI.createLabel({			
-			backgroundColor: '#999999',
-			borderRadius:6,	
-			borderWidth:0,
-			borderColor:'#999999',
-			width:30,
-			height: 22,
-			textAlign:'center',
-			right:6
-		});
-		
-		var rowStatus = Titanium.UI.createLabel({
-			text: k + 1,			
-			color:'#ffffff',
-			width:'auto',
-			height: 'auto',
-			font:{fontWeight:'bold'},
-		});
-		statusView.add(rowStatus);
-		if (i > 4 && i !== 9)
-			row.add(statusView);
-			
-		if (thisObj.header)
-			row.header = thisObj.header;
-			
-		row.subWindow = thisObj.subWindow;
-		row.subWindowURL = thisObj.subWindowURL;
-		row.subWindowTitle = thisObj.title;
-		
-		tableData.push(row);
-	}
-	tvDashboard.setData(tableData);
+		//-----------------
+        
+        tvDashboard.setData(tableData);
+        tvDashboard.show();
+    }
+    
+    tvDashboard.hide();
+    Ti.App.fireEvent('show_global_indicator',{message: 'Loading...'});
+    mbl_dataExchange("GET", 'Tickets.svc/summary/',
+    	function () {
+    		Ti.App.fireEvent('hide_global_indicator');
+    		Ti.API.info('Dashboard HTTP Status = ' + this.status);
+    		Ti.API.info('Dashboard HTTP Response = ' + this.responseText);
+    		if (this.status === 200)
+        		fillTicketsTableView(this.responseText);
+			else
+				alert('Get Dashboard failed. Error code: ' + this.status);},
+    	function (e) {  },
+    	function (e) {
+    		fillTicketsTableView(data);
+    		Ti.App.fireEvent('hide_global_indicator');
+    		alert('Dashboard Connect Error. Details: ' + JSON.stringify(e));
+    	});
 }
 
 loadDashboard();
