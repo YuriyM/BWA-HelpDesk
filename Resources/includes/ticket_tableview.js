@@ -38,7 +38,7 @@ function createTicketTableView(tickets, tickets_id)
             // num+subject row
             var row1view = Titanium.UI.createView({
                 height: 'auto',
-                width: '100%',                
+                width: '100%',
                 top: 0,
                 right: 0,
                 bottom: 0,
@@ -67,7 +67,7 @@ function createTicketTableView(tickets, tickets_id)
             var subject_label_height = 18; // if auto than it's not trimmed
             var ticket_lbl = Titanium.UI.createLabel({
                 text: subject,
-                top: 6,
+                top: 5,
                 left: 4,
                 width: 220, // depends on screen width, wonder how it looks on retina display
                 height: subject_label_height+2,
@@ -364,7 +364,69 @@ function createTicketTableView(tickets, tickets_id)
 			row.number = number;
             rowData[i] = row;
         }
+    
      return rowData;
+}
+
+function createLoadMoreLabelRow()
+{
+	var row = Titanium.UI.createTableViewRow({ height: 'auto', hasChild: false });
+     
+	var lblLoadMore = Titanium.UI.createLabel({
+		text: 'Load More Tickets...',
+		left:0,
+		right:0,
+		height:16,
+		width: 'auto',
+		top: 17,
+		bottom: 20,
+		color: '#63648B',
+		font:{ fontSize:16, fontWeight:'bold' }   
+	});
+	row.add(lblLoadMore);
+	row.className = "loadMore";
+	row.selectionStyle = Titanium.UI.iPhone.TableViewCellSelectionStyle.GRAY;
+	row.loadMore = true;
+	
+	return row;
+}
+
+function createLoadingMoreRow()
+{
+    var rowLoading = Titanium.UI.createTableViewRow({ height: 'auto', hasChild: false });
+    	
+    actInd = Titanium.UI.createActivityIndicator({ style:Titanium.UI.iPhone.ActivityIndicatorStyle.DARK, width: 20, height: 20	});	
+	
+	message = Titanium.UI.createLabel({
+		text:'Loading...',
+		color:'#111111',
+		width:'auto',
+		height:'auto',
+		left: 8,
+		font:{fontSize:16,fontWeight:'normal'}
+	});
+		
+	var loading_view = Titanium.UI.createView({            	
+       	height: 16,
+        width: 'auto',
+		top: 17,
+		bottom: 20,
+        left: 0,                
+        right: 0,
+        layout: 'horizontal'
+   	});
+		
+	loading_view.add(actInd);
+	loading_view.add(message);
+	rowLoading.add(loading_view);
+		
+	actInd.show();
+		
+    rowLoading.className = "loadingMoreTickets";
+    rowLoading.touchEnabled = false;
+    rowLoading.selectionStyle = Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE;
+	
+	return rowLoading;
 }
 
 function createHTMLTicketView()

@@ -237,5 +237,5 @@ win.addEventListener('event_select_entity',function(e)
 			tkt_tid = e.id;
 		break;
 	}
-	tvCreateTicket.updateRow(e.select_type,rowUpdate,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.LEFT});
+	tvCreateTicket.updateRow(e.select_type,rowUpdate,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.FADE});
 });

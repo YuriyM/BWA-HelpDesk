@@ -18,22 +18,26 @@ function mbl_dataExchange(requestType, requestURL, onload, ondatastream, onerror
 	
 	loader.setTimeout(30000);
 	
-	if (ondatastream != null)
+	if (ondatastream !== null)
     	loader.ondatastream = ondatastream;
     	
-    if (onload != null)
+    if (onload !== null)
     	loader.onload = onload;
     
-    if (onerror != null)
+    if (onerror !== null)
     	loader.onerror = onerror;
     
     loader.validatesSecureCertificate = APICertCheck;
     loader.open(requestType, APIOrgInstanceURL + requestURL, true);    
     
-    if (email == null)
+    if ((email === null) || (typeof email === "undefined"))
     	email = Ti.App.Properties.getString('mblUserEmail', serviceLogin);
-    if (pwd == null)
+    if ((pwd === null) || (typeof pwd === "undefined"))
 		pwd = Ti.App.Properties.getString('mblUserPwd', servicePassword);
+	
+	// for now
+	email = 'jon.vickers@micajah.com';
+	pwd = 'vader';
 		
     loader.setRequestHeader("Authorization", createAuthHeader(email, pwd));
     loader.setRequestHeader("Content-Type", "application/rss+xml");
