@@ -17,7 +17,7 @@ var textRespond = Titanium.UI.createTextArea({
 	height:300,
 	top:10,
 	width: 295,
-	font:{fontSize:20,fontFamily:'Arial', fontWeight:'nornal'},
+	font:{fontSize:20,fontFamily:'Arial', fontWeight:'normal'},
 	suppressReturn:true,
 	hintText:'Enter Response to Ticket'
 });

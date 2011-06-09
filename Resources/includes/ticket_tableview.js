@@ -356,8 +356,17 @@ function createTicketTableView(tickets, tickets_id)
 				left:10
 			});
 			
+			var imvReply = Titanium.UI.createImageView({
+				image: '../images/reply.png',
+				width:15,
+				height:19,
+				top:60,
+				left:10
+			});
+			
 			row.add(post_view);
 			row.add(imvAttach);
+			row.add(imvReply);
             row.className = "itemTicket";
 			row.tid = tickets[i].key;
 			tickets_id[i] = tickets[i].key;

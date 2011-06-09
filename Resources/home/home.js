@@ -42,25 +42,25 @@ win.leftNavButton = navSignOut;
 //
 var data = [
 	//General section
-	{title:'Accounts', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Locations', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Projects', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
+	{title:'Accounts', hasChild:true, subWindow:'../tickets/ticket_list.js' },
+	{title:'Locations', hasChild:true, subWindow:'../tickets/ticket_list.js'},
+	{title:'Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js'},
+	{title:'Projects', hasChild:true, subWindow:'../tickets/ticket_list.js'},
 	// Active link
-	{title:'Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js', subWindowURL:'../tickets/ticket_list.js', header: 'Test Tickets', leftImage: '../images/MAIL.PNG'},
+	{title:'Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js', subWindowURL:'../tickets/ticket_list.js', header: 'Test Tickets', leftImage: '../images/single_bucket.png'},
 	// Tickets section
-	{title:'New Messages', hasChild:true, subWindow:'../tickets/ticket_list.js', header: 'Ticket Summary', leftImage: '../images/MAIL.PNG'},
-	{title:'Open Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Open as End User', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'On Hold', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Waiting On Parts', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Follow-Up Dates', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Unconfirmed', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
+	{title:'New Messages', hasChild:true, subWindow:'../tickets/ticket_list.js', header: 'Ticket Summary', leftImage: '../images/single_bucket.png'},
+	{title:'Open Tickets', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
+	{title:'Open as End User', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
+	{title:'On Hold', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
+	{title:'Waiting On Parts', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
+	{title:'Follow-Up Dates', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
+	{title:'Unconfirmed', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
 	// Queues
-	{title:'Future Consideration', hasChild:true, subWindow:'../tickets/ticket.js', header: 'Queues', leftImage: '../images/MAIL.PNG'},
-	{title:'MC3 Upgrade', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Pre-Development', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'},
-	{title:'Website fixes', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/MAIL.PNG'}
+	{title:'Future Consideration', hasChild:true, subWindow:'../tickets/ticket.js', header: 'Queues', leftImage: '../images/single_bucket.png'},
+	{title:'MC3 Upgrade', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
+	{title:'Pre-Development', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'},
+	{title:'Website fixes', hasChild:true, subWindow:'../tickets/ticket_list.js', leftImage: '../images/single_bucket.png'}
 ];
 
 function loadDashboard()
@@ -71,18 +71,24 @@ function loadDashboard()
 		var thisObj = data[i];
 		
 		var row = Ti.UI.createTableViewRow({
-		    className: 'home_row',
-		    leftImage: thisObj.leftImage,
+		    //className: 'home_row',
 		    hasChild: thisObj.hasChild
 		  });
 		
+		var nameLeftPad = 10;
+		if (thisObj.leftImage)
+		{
+			nameLeftPad = 40;
+			row.leftImage = thisObj.leftImage;
+		}
+		
 		var rowName = Titanium.UI.createLabel({
 			text:thisObj.title,
-			font:{fontSize:16,fontWeight:'bold'},
+			font:{fontSize:20,fontWeight:'bold'},
 			width:'auto',
 			textAlign:'left',		
-			left:40,
-			height:18
+			left:nameLeftPad,
+			height:22
 		});
 		if (!thisObj.subWindowURL)
 			rowName.color = '#999999';
@@ -92,17 +98,27 @@ function loadDashboard()
 		if (k > 10)
 			k = k - 11;
 		
-		var rowStatus = Titanium.UI.createLabel({
-			text: k + 1,
+		var statusView = Titanium.UI.createLabel({			
 			backgroundColor: '#999999',
-			color:'#ffffff',
-			width:14,
-			height: 18,
+			borderRadius:6,	
+			borderWidth:0,
+			borderColor:'#999999',
+			width:30,
+			height: 22,
 			textAlign:'center',
-			right:10
+			right:6
 		});
+		
+		var rowStatus = Titanium.UI.createLabel({
+			text: k + 1,			
+			color:'#ffffff',
+			width:'auto',
+			height: 'auto',
+			font:{fontWeight:'bold'},
+		});
+		statusView.add(rowStatus);
 		if (i > 4 && i !== 9)
-			row.add(rowStatus);
+			row.add(statusView);
 			
 		if (thisObj.header)
 			row.header = thisObj.header;
