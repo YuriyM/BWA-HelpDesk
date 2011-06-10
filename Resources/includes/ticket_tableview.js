@@ -373,7 +373,10 @@ function createTicketTableView(tickets, tickets_id)
 			row.add(post_view);
 			row.add(imvAttach);
 			row.add(imvReply);
-            //row.className = "itemTicket";
+			if (useAlternativeLayout)
+				row.className = "itemAltTicket";
+			else
+            	row.className = "itemTicket";
 			row.tid = tickets[i].key;
 			tickets_id[i] = tickets[i].key;
 			row.number = number;

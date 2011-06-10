@@ -1,5 +1,6 @@
 function createDashboardRow(active, image, title, subWTitle, subWURL, statusCount, sectionHeader)
 {
+	var rowClass = 'itemType1';
 	var row = Ti.UI.createTableViewRow({ hasChild: true, subWindowTitle: subWTitle });
 	
 	var leftNamePadding = 10;
@@ -8,6 +9,7 @@ function createDashboardRow(active, image, title, subWTitle, subWURL, statusCoun
 		row.leftImage = image;
 		leftNamePadding = 40
 	}
+	else rowClass = 'itemType2';
 	
 	if (sectionHeader)
 		row.header = sectionHeader;
@@ -29,6 +31,7 @@ function createDashboardRow(active, image, title, subWTitle, subWURL, statusCoun
 	
 	if (statusCount > 0)
 	{
+		rowClass = 'itemType3';
 		var statusView = Titanium.UI.createView({			
 			backgroundColor: '#999999',
 			borderRadius:6,	
@@ -49,5 +52,7 @@ function createDashboardRow(active, image, title, subWTitle, subWURL, statusCoun
 		statusView.add(lblStatus);
 		row.add(statusView);
 	}
+	
+	row.className = rowClass;
 	return row;
 }
