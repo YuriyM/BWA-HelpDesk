@@ -98,15 +98,15 @@ bNavAdd.addEventListener('click', function(e)
         	Ti.API.info('Login HTTP Status = ' + this.status);
     		Ti.API.info('Login HTTP Response = ' + this.responseText);
     		if (this.status === 200)
-    		{
-        		var win = Ti.UI.createWindow( {
-		       		title : 'Dashboard',				
-			        url: 'home.js',
-			        _parent: Titanium.UI.currentWindow,
-			        navGroup : Titanium.UI.currentWindow.navGroup,
-			        rootWindow : Titanium.UI.currentWindow.rootWindow
-			    });		     
-			 	Titanium.UI.currentWindow.navGroup.open(win, {animated:true});
+    		{	
+	        	var win = Ti.UI.createWindow( {
+			    	title : 'Dashboard',				
+				    url: 'home.js',
+				    _parent: Titanium.UI.currentWindow,
+				    navGroup : Titanium.UI.currentWindow.navGroup,
+				    rootWindow : Titanium.UI.currentWindow.rootWindow
+				});
+			    setTimeout(function (){Titanium.UI.currentWindow.navGroup.open(win, {animated:true}); }, 800 );	
 			}
 			else
 				alert('Login failed. Error code: ' + this.status);

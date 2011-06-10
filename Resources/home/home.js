@@ -26,7 +26,6 @@ tvDashboard.addEventListener('click', function(e)
 
 // Pull down section init
 mbl_addTablePullDownHeader(tvDashboard, function () { tvDashboard.setData([]); }, loadDashboard );
-
 win.add(tvDashboard);
 
 //
@@ -100,6 +99,7 @@ function loadDashboard()
 		//-----------------
         
         tvDashboard.setData(tableData);
+        Ti.App.fireEvent('hide_global_indicator');
         tvDashboard.show();
     }
     
@@ -107,7 +107,7 @@ function loadDashboard()
     Ti.App.fireEvent('show_global_indicator',{message: 'Loading...'});
     mbl_dataExchange("GET", 'Tickets.svc/summary/',
     	function () {
-    		Ti.App.fireEvent('hide_global_indicator');
+    		//Ti.App.fireEvent('hide_global_indicator');
     		Ti.API.info('Dashboard HTTP Status = ' + this.status);
     		Ti.API.info('Dashboard HTTP Response = ' + this.responseText);
     		if (this.status === 200)
@@ -116,7 +116,7 @@ function loadDashboard()
 				alert('Get Dashboard failed. Error code: ' + this.status);},
     	function (e) {  },
     	function (e) {
-    		fillTicketsTableView(data);
+    		//fillTicketsTableView();
     		Ti.App.fireEvent('hide_global_indicator');
     		alert('Dashboard Connect Error. Details: ' + JSON.stringify(e));
     	});
