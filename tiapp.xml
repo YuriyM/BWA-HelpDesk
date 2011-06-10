@@ -6,7 +6,7 @@
         <target device="android">true</target>
     </deployment-targets>
     <id>K38L7HPDJV.com.bigwebapps.helpdesk.mobile</id>
-    <name>BWA HelpDesk</name>
+    <name>bigWebApps</name>
     <version>1.0</version>
     <publisher>bigWebApps Inc.</publisher>
     <url>http://helpdesk.bigwebapps.com/</url>
