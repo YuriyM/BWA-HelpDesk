@@ -59,20 +59,97 @@ rowPassword.add(lblPassword);
 rowPassword.add(textPassword);
 data[1] = rowPassword;
 
-// add created table view to window
-win.add(
-	Titanium.UI.createTableView({
+var tvLogin = Titanium.UI.createTableView({
 		data:data,
 		style: Titanium.UI.iPhone.TableViewStyle.GROUPED
-	})
-);
+});
+
+// add created table view to window
+tvLogin.hide();
+win.add(tvLogin);
+
+var data = [];
+var rowLogout = Ti.UI.createTableViewRow({
+	height:50,
+	selectionStyle: Ti.UI.iPhone.TableViewCellSelectionStyle.NONE,
+	header: 'Logged in as'
+});
+
+var savedUser = Ti.App.Properties.getString('mblUserEmail', '');
+var txtLogin = Titanium.UI.createLabel({
+	color:'#336699',
+    text:savedUser,
+    color:'#336699',
+	width:'auto',
+	font:{fontSize: 20, fontWeight:'bold'}
+});
+rowLogout.add(txtLogin);
+data[0] = rowLogout;
+
+var rowOrg = Ti.UI.createTableViewRow({
+	height:50,
+	selectionStyle: Ti.UI.iPhone.TableViewCellSelectionStyle.NONE,
+	header: 'Organization'
+});
+
+var txtOrg = Titanium.UI.createLabel({
+	color:'#336699',
+    text:'bigWebApps Support',
+    color:'#336699',
+	width:'auto',
+	font:{fontSize: 20, fontWeight:'bold'}
+});
+rowOrg.add(txtOrg);
+data[1] = rowOrg;
+
+var tvLogoutEmail = Titanium.UI.createTableView({
+		data:data,
+		style: Titanium.UI.iPhone.TableViewStyle.GROUPED
+});
+
+var tvLogout = Titanium.UI.createView({
+	width: '100%',
+	height: '100%'
+});
+
+var bLogout = Titanium.UI.createButton({
+	title:'Log Out',
+	height:45,
+	width: 300,
+	top:215,
+	color: '#111111',
+	font:{fontSize: 18, fontWeight:'bold'},
+	style:Titanium.UI.iPhone.SystemButtonStyle.BORDERED
+});
+
+bLogout.addEventListener('click', function(e)
+{	
+	Ti.App.Properties.setString('mblUserPwd', null);
+	loginInit();
+});
+
+tvLogout.add(tvLogoutEmail);
+tvLogout.add(bLogout);
+tvLogout.hide();
+win.add(tvLogout);
 // === complete controls initialization ===
 
+function openDashboard(timeout)
+{
+	var win = Ti.UI.createWindow( {
+			    	title : 'Dashboard',				
+				    url: 'home.js',
+				    _parent: Titanium.UI.currentWindow,
+				    navGroup : Titanium.UI.currentWindow.navGroup,
+				    rootWindow : Titanium.UI.currentWindow.rootWindow
+				});
+			    setTimeout(function (){Titanium.UI.currentWindow.navGroup.open(win, {animated:true}); }, timeout );
+}
 //
 // Nav bar controls initialization
 //
-var bNavAdd = Titanium.UI.createButton({ title: 'Sign In' });
-bNavAdd.addEventListener('click', function(e)
+var bNavLogin= Titanium.UI.createButton({ title: 'Log In' });
+bNavLogin.addEventListener('click', function(e)
 {
 	var email = textLogin.value;
 	if (email.length === 0)
@@ -88,37 +165,17 @@ bNavAdd.addEventListener('click', function(e)
 		return;
 	}
 	
-	Ti.App.fireEvent('show_global_indicator',{message: 'Signing In'});
-    mbl_dataExchange("GET", "Tickets.svc?pg=1&ps=2",
-    	function () {
-    		Ti.App.fireEvent('hide_global_indicator');
-        	Ti.App.Properties.setString('mblUserEmail', email);
-        	Ti.App.Properties.setString('mblUserPwd', pwd);
-        	textPassword.value = '';
-        	Ti.API.info('Login HTTP Status = ' + this.status);
-    		Ti.API.info('Login HTTP Response = ' + this.responseText);
-    		if (this.status === 200)
-    		{	
-	        	var win = Ti.UI.createWindow( {
-			    	title : 'Dashboard',				
-				    url: 'home.js',
-				    _parent: Titanium.UI.currentWindow,
-				    navGroup : Titanium.UI.currentWindow.navGroup,
-				    rootWindow : Titanium.UI.currentWindow.rootWindow
-				});
-			    setTimeout(function (){Titanium.UI.currentWindow.navGroup.open(win, {animated:true}); }, 800 );	
-			}
-			else
-				alert('Login failed. Error code: ' + this.status);
-    	},
-    	function (e) {  },
-    	function (e) { Ti.App.fireEvent('hide_global_indicator'); alert('Login Connect Error. Details: ' + JSON.stringify(e)); },
-    	null,
-    	email,
-    	pwd
-    	);
+	Ti.App.Properties.setString('mblUserEmail', email);
+    Ti.App.Properties.setString('mblUserPwd', pwd);
+    textPassword.value = '';
+	checkCredentials(email, pwd);
 });
-win.setRightNavButton(bNavAdd);//connected
+
+var bNavDashboard = Titanium.UI.createButton({ title: 'Dashboard' });
+bNavDashboard.addEventListener('click', function(e)
+{
+	openDashboard(10);
+});
 
 var navSettings = Ti.UI.createButton({title:'Settings'});
 navSettings.addEventListener('click', function(e)
@@ -134,3 +191,45 @@ navSettings.addEventListener('click', function(e)
 });
 win.leftNavButton = navSettings;
 // === complete Nav bar controls initialization ===
+
+function checkCredentials(email, pwd)
+{
+	Ti.App.fireEvent('show_global_indicator',{message: 'Signing In'});
+    mbl_dataExchange("GET", "Tickets.svc?pg=1&ps=2",
+    	function () {
+    		Ti.App.fireEvent('hide_global_indicator');
+        	Ti.API.info('Login HTTP Status = ' + this.status);
+    		Ti.API.info('Login HTTP Response = ' + this.responseText);
+    		if (this.status === 200)
+    		{	
+	        	tvLogin.hide();
+				tvLogout.show();	
+				win.setRightNavButton(bNavDashboard);
+	        	openDashboard(800);	
+			}
+			else
+			{
+				loginInit();
+				alert('Login failed. Error code: ' + this.status);				
+			}
+    	},
+    	function (e) {  },
+    	function (e) { Ti.App.fireEvent('hide_global_indicator'); loginInit();alert('Login Connect Error. Details: ' + JSON.stringify(e)); },
+    	null,
+    	email,
+    	pwd);
+}
+
+function loginInit()
+{	
+	tvLogout.hide();
+	tvLogin.show();
+    win.setRightNavButton(bNavLogin);
+}
+
+var email = Ti.App.Properties.getString('mblUserEmail', null);
+var pwd = Ti.App.Properties.getString('mblUserPwd', null);
+if ((email === null) || (typeof email === "undefined") || (pwd === null) || (typeof pwd === "undefined"))
+	loginInit();
+else
+	checkCredentials(email, pwd);

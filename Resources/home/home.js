@@ -31,10 +31,16 @@ win.add(tvDashboard);
 //
 // Nav Bar Init
 //
-var navSignOut = Ti.UI.createButton({title:'Sign Out'});
+var navSignOut = Ti.UI.createButton({title:'Config'});
+/*var navSignOut = Ti.UI.createButton({
+		backgroundImage:'../images/config.png',
+		height:35,
+		width: 35
+	});*/
+//var navSignOut = [	{image:'../images/config.png', width:45, height:30 } ];
+//var nav_bar = Titanium.UI.createButtonBar({ style:Titanium.UI.iPhone.SystemButtonStyle.BAR, labels: navSignOut });
 navSignOut.addEventListener('click', function(e)
-{
-    Ti.App.Properties.setString('mblUserPwd', '');
+{   
     win.navGroup.close(win);
 });
 win.setRightNavButton(navSignOut);

@@ -1,7 +1,7 @@
 Ti.include('controls/global_custom_message.js');
 Ti.include('controls/global_load_indicator.js');
 
-var appBase = Ti.UI.createWindow({ backgroundColor:'#ffffff', backgroundImage: 'Default.png' });
+var appBase = Ti.UI.createWindow({ backgroundColor:'#ffffff'/*, backgroundImage: 'Default.png'*/ });
 var navGroup = Ti.UI.iPhone.createNavigationGroup({	 });	
 var winHome = Ti.UI.createWindow({
 	backgroundColor:'#ffffff',
