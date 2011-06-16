@@ -69,9 +69,9 @@ function createTicketTableView(tickets, tickets_id)
                 text: subject,
                 top: 5,
                 left: 4,
-                //width: 220, // depends on screen width, wonder how it looks on retina display
+                //width: 220, // depends on screen width
                 height: subject_label_height+2,
-                font:{fontSize:subject_label_height}
+                font:{fontSize:subject_label_height, fontWeight:'bold'}
             });
             
             ticket_lbl.width = 285 - 4 - tktdiez_lbl.getWidth() - tktnum_lbl.getWidth();
@@ -220,33 +220,32 @@ function createTicketTableView(tickets, tickets_id)
             var tech_view = Titanium.UI.createView({            	
                 height: 'auto',
                 width: 'auto', // we can know width exactly
-                //layout: 'horizontal',
+                layout: 'horizontal',
                 top: 1,                
                 left: 0
             });            
             
-            // not used for now
-            /*var techheader_lbl = Titanium.UI.createLabel({
+            var techheader_lbl = Titanium.UI.createLabel({
                 text: 'Tech',
-                top: label_bottom_shift,
-                left: 3,
+                top: label_bottom_shift-1,
+                left: 0,
                 width: 'auto',
-                height: label_size,
+                height: 'auto',
                 color:label_color,
 				font:{fontSize:label_size, fontWeight:'normal' }
-            });*/
+            });
            
             var tech_lbl = Titanium.UI.createLabel({
                 text: tech,// + 'cxkxcmxl xdvsjdnzkjd kzsdvjkjdn vzjkndskjs dvnkjzsnkjv dndkjvn kjdsn',                
                 top: 2,
-                left: 0,
+                left: 4,
                 width: 'auto',
                 height: 'auto',
                 color:text_color,
                 font:{fontSize:text_size-2, fontWeight:'normal' }
             });
+            tech_view.add(techheader_lbl);
             tech_view.add(tech_lbl);
-            //tech_view.add(techheader_lbl);
             tech_row.add(tech_view);
             
             var level_view = Titanium.UI.createView({            	
@@ -293,32 +292,32 @@ function createTicketTableView(tickets, tickets_id)
             var class_view = Titanium.UI.createView({            	
                 height: 'auto',
                 width: 'auto',
-                //layout: 'horizontal',
+                layout: 'horizontal',
                 top: 1,
                 left: 0
-            });            
+            });
             
-            /*var classheader_lbl = Titanium.UI.createLabel({
+            var classheader_lbl = Titanium.UI.createLabel({
                 text: 'Class',
-                top: 0,
-                left: 3,
+                top: label_bottom_shift-1,
+                left: 0,
                 width: 'auto',
-                height: label_size,
+                height: 'auto',
                 color:label_color,
 				font:{fontSize:label_size, fontWeight:'normal'}
-            });*/
+            });
            
             var class_lbl = Titanium.UI.createLabel({
                 text: tclass,                
                 top: 2,
-                left: 0,
+                left: 4,
                 width: 'auto',
                 height: 'auto',
                 color:text_color,
                 font:{fontSize:text_size-2, fontWeight:'normal'}
             });
+            class_view.add(classheader_lbl);
             class_view.add(class_lbl);
-            //class_view.add(classheader_lbl);
             class_row.add(class_view);
             
             var priority_view = Titanium.UI.createView({            	
