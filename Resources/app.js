@@ -23,6 +23,10 @@ var splash = Titanium.UI.createWindow({
     //modal: true,
     backgroundImage: 'Default.png'
 });
+splash.addEventListener('click', function(e) {
+	splash.close();
+});
+
 Ti.App.addEventListener('pause', function(e) {
 	//Ti.API.info('pause event fired: ' + Ti.App.getArguments());
 	//navGroup.open(splash);
@@ -30,6 +34,12 @@ Ti.App.addEventListener('pause', function(e) {
 });
 
 Ti.App.addEventListener('resume', function(e) {
+	//Ti.API.info('Resume event fired: ' + Ti.App.getArguments());
+	//splash.open();
+    setTimeout(function() { splash.close(); /*navGroup.close(splash);*/ }, 1000);
+});
+
+Ti.App.addEventListener('resumed', function(e) {
 	//Ti.API.info('Resume event fired: ' + Ti.App.getArguments());
 	//splash.open();
     setTimeout(function() { splash.close(); /*navGroup.close(splash);*/ }, 1000);

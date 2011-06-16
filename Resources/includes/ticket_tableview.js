@@ -22,7 +22,7 @@ function createTicketTableView(tickets, tickets_id)
             
             var left_indent = 27;
             var top_indent = 4;
-            var label_bottom_shift = 2;
+            var label_bottom_shift = 3;
                                     
             var row = Titanium.UI.createTableViewRow({ height: 'auto', hasChild: true });
 
@@ -180,7 +180,7 @@ function createTicketTableView(tickets, tickets_id)
                 width: 'auto',                
                 height: 'auto',
                 color:'#3f6c19',
-                font:{fontSize:text_size+1, fontWeight:'normal'}
+                font:{fontSize:text_size+1, fontWeight:'bold'}
             });      
             status_view.add(status_lbl);
             
@@ -238,7 +238,7 @@ function createTicketTableView(tickets, tickets_id)
            
             var tech_lbl = Titanium.UI.createLabel({
                 text: tech,// + 'cxkxcmxl xdvsjdnzkjd kzsdvjkjdn vzjkndskjs dvnkjzsnkjv dndkjvn kjdsn',                
-                top: 0,
+                top: 2,
                 left: 0,
                 width: 'auto',
                 height: 'auto',
@@ -263,7 +263,7 @@ function createTicketTableView(tickets, tickets_id)
                 width: 'auto',                
                 height: 'auto',
                 color:text_color,
-                font:{fontSize:text_size-1, fontWeight:'normal'}
+                font:{fontSize:text_size+1, fontWeight:'normal'}
             });
             
             var levelheader_lbl = Titanium.UI.createLabel({
@@ -310,7 +310,7 @@ function createTicketTableView(tickets, tickets_id)
            
             var class_lbl = Titanium.UI.createLabel({
                 text: tclass,                
-                top: 0,
+                top: 2,
                 left: 0,
                 width: 'auto',
                 height: 'auto',
@@ -335,7 +335,7 @@ function createTicketTableView(tickets, tickets_id)
                 width: 'auto',                
                 height: 'auto',
                 color:text_color,
-                font:{fontSize:text_size-1, fontWeight:'normal'}
+                font:{fontSize:text_size+1, fontWeight:'normal'}
             });
             
             var priorityheader_lbl = Titanium.UI.createLabel({

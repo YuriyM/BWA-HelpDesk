@@ -1,7 +1,7 @@
 function createDashboardRow(active, image, title, subWTitle, subWURL, statusCount, sectionHeader)
 {
 	var rowClass = 'itemType1';
-	var row = Ti.UI.createTableViewRow({ hasChild: true, subWindowTitle: subWTitle });
+	var row = Ti.UI.createTableViewRow({ hasChild: true, subWindowTitle: subWTitle, height: 52 });
 	
 	var leftNamePadding = 10;
 	if (image)
