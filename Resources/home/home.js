@@ -63,7 +63,10 @@ function loadDashboard()
 		tableData.push(createDashboardRow(false, null, 'Locations', 'Locations', null, 0, null));
 		
 		// Tickets Row
-		tableData.push(createDashboardRow(true, null, 'Tickets', 'Tickets', '../tickets/ticket_list.js', 0, null));        
+		tableData.push(createDashboardRow(true, null, 'Tickets', 'Tickets', '../tickets/ticket_list.js', 0, null));
+		
+		// Test Tickets Row
+		tableData.push(createDashboardRow(true, null, 'Local Tickets', 'Local Tickets', '../tickets/ticket_test_list.js', 0, null)); 
 		
 		// Projects Row
         tableData.push(createDashboardRow(false, null, 'Projects', 'Projects', null, 0, null));
