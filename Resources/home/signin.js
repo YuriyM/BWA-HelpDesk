@@ -136,14 +136,25 @@ win.add(tvLogout);
 
 function openDashboard(timeout)
 {
-	var win = Ti.UI.createWindow( {
-			    	title : 'Dashboard',				
-				    url: 'home.js',
-				    _parent: Titanium.UI.currentWindow,
-				    navGroup : Titanium.UI.currentWindow.navGroup,
-				    rootWindow : Titanium.UI.currentWindow.rootWindow
-				});
-			    setTimeout(function (){Titanium.UI.currentWindow.navGroup.open(win, {animated:true}); }, timeout );
+	if (Ti.Platform.osname !== 'android')
+	{
+		var win = Ti.UI.createWindow( {
+				    	title : 'Dashboard',				
+					    url: 'home.js',
+					    _parent: Titanium.UI.currentWindow,
+					    navGroup : Titanium.UI.currentWindow.navGroup,
+					    rootWindow : Titanium.UI.currentWindow.rootWindow
+					});
+		setTimeout(function (){Titanium.UI.currentWindow.navGroup.open(win, {animated:true}); }, timeout );
+	}
+	else
+	{
+		var win = Ti.UI.createWindow( {
+				    	title : 'Dashboard',				
+					    url: 'home.js'
+					});
+		setTimeout(function (){win.open(); }, timeout );
+	}
 }
 //
 // Nav bar controls initialization
@@ -189,7 +200,9 @@ navSettings.addEventListener('click', function(e)
 		    });		     
 		 	Titanium.UI.currentWindow.navGroup.open(win, {animated:true});
 });
-win.leftNavButton = navSettings;
+
+if (Ti.Platform.osname !== 'android')
+	win.leftNavButton = navSettings;
 // === complete Nav bar controls initialization ===
 
 function checkCredentials(email, pwd)
@@ -203,8 +216,9 @@ function checkCredentials(email, pwd)
     		if (this.status === 200)
     		{	
 	        	tvLogin.hide();
-				tvLogout.show();	
-				win.setRightNavButton(bNavDashboard);
+				tvLogout.show();
+				if (Ti.Platform.osname !== 'android')
+					win.setRightNavButton(bNavDashboard);
 	        	openDashboard(800);	
 			}
 			else
@@ -224,7 +238,8 @@ function loginInit()
 {	
 	tvLogout.hide();
 	tvLogin.show();
-    win.setRightNavButton(bNavLogin);
+	if (Ti.Platform.osname !== 'android')
+    	win.setRightNavButton(bNavLogin);
 }
 
 var email = Ti.App.Properties.getString('mblUserEmail', null);

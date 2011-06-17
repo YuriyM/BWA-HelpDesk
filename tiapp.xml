@@ -38,4 +38,5 @@
 	</android>
 	<modules>
 	</modules>
+	<property name="ti.android.fastdev" type="bool">true</property>
 </ti:app>
