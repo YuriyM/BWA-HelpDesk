@@ -2,7 +2,7 @@ function createTicketTableView(tickets, tickets_id)
 {
 	var rowData = []; 
 	for (var i = 0; i < tickets.length; i++) {
-			var number = tickets[i].number;
+			var number = tickets[i].number.toString();
             var subject = tickets[i].subject;
             var user = tickets[i].user_name;
             var tech = tickets[i].tech_name;
@@ -74,7 +74,8 @@ function createTicketTableView(tickets, tickets_id)
                 font:{fontSize:subject_label_height, fontWeight:'bold'}
             });
             
-            ticket_lbl.width = 285 - 4 - tktdiez_lbl.getWidth() - tktnum_lbl.getWidth();
+            if (Ti.Platform.osname !== 'android')
+            	ticket_lbl.width = 285 - 4 - tktdiez_lbl.getWidth() - tktnum_lbl.getWidth();
             
             row1view.add(tktdiez_lbl);
             row1view.add(tktnum_lbl);
